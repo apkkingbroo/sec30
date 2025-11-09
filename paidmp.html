@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Apkmodderkings • ( Tg channel)</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=Inter:wght@500;700;900&display=swap" rel="stylesheet" />
+
+<style>
+/* ============ THEME (Cyberpunk Terminal - Yellow/Amber) ============ */
+:root{
+  --bg:#0a0a0c; /* Near Black */
+  --paper:#1a1a1f; /* Dark Gray Block */
+  --ink:#fff3e0; /* Off-White (Primary Text) */
+  --muted:#ffcc80; /* Soft Amber (Secondary Text/Holographic) */
+  --accent:#ffc107; /* Amber/Yellow (Primary Accent) */
+  --accent-2:#00e5ff; /* Cyan (Secondary Accent) */
+  --danger:#ff6f00; /* Dark Orange/Red */
+  --ring:0 0 0 2px rgba(255,193,7,.8); /* Amber Ring */
+  --shadow-1:0 4px 12px rgba(0,0,0,.4);
+  --shadow-2:0 0 16px rgba(255,193,7,.6); /* Amber Glow */
+  --r-lg:8px;
+  --r-md:4px;
+  --r-sm:2px;
+  --gap:16px;
+  --btn-h:48px;
+  --card-w:170px;
+  --title:26px;
+  --font-hacker:'Space Mono', monospace; /* Monospaced Font */
+  --font-body:'Inter', sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-tap-highlight-color:transparent;
+  overflow-x:hidden; /* FIX: Prevents horizontal scrolling/jitter */
+}
+
+/* Background Grid/Effect */
+.bg{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(255,193,7,.03) 1px, transparent 1px) 0 0/25px 25px,
+    linear-gradient(0deg ,rgba(255,193,7,.03) 1px, transparent 1px) 0 0/25px 25px,
+    radial-gradient(1000px 500px at 150% 120%, rgba(255,193,7,.06), transparent 55%),
+    radial-gradient(1000px 500px at -50% -20%, rgba(0,229,255,.06), transparent 55%);
+}
+
+/* Ripple Effect Container */
+.ripple-container {
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0); /* Hardware acceleration */
+}
+/* Base styles for clickable elements */
+.card, .btn, .action, .row, .fab, .chip, .search, .tg-btn, .tg-hide-btn {
+    position: relative; /* Essential for ripple effect */
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 1; /* Ensure element is above its own ripple */
+}
+
+/* Ripple CSS */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    opacity: 1;
+    background-color: rgba(255, 193, 7, 0.4); /* Yellow/Amber glass */
+    animation: ripple-animation 0.5s linear;
+    pointer-events: none;
+}
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+
+/* ============ HEADER ============ */
+.wrap{position:relative; z-index:1; width:100%; max-width:980px; margin:0 auto; padding:18px 14px 24px;}
+.top{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;}
+.brand{display:flex; align-items:center; gap:12px; padding:10px 14px; background:var(--paper); border-radius:var(--r-lg); border:1px solid var(--accent); box-shadow:var(--shadow-1);}
+.brand img{width:48px; height:48px; object-fit:cover; border-radius:var(--r-md); border:2px solid var(--accent-2); box-shadow:0 0 10px var(--accent-2);}
+.brand h1{margin:0; font-size:var(--title); font-weight:900; letter-spacing:1px; color:var(--accent); font-family:var(--font-hacker);}
+.chip{height:38px; padding:0 12px; display:inline-flex; align-items:center; gap:8px; background:var(--paper); border-radius:999px; border:1px solid var(--muted); color:var(--muted); font-weight:500; font-size:12px; font-family:var(--font-hacker);}
+.chip .dot{width:10px; height:10px; border-radius:50%; background:var(--ink); box-shadow:0 0 4px var(--ink);}
+
+/* ============ TOOLBAR ============ */
+.toolbar{display:flex; align-items:center; gap:12px; margin:12px 0 10px; flex-wrap:wrap;}
+.search{flex:1 1 320px; display:flex; align-items:center; gap:10px; background:var(--paper); border-radius:var(--r-lg); border:1px solid var(--muted); box-shadow:var(--shadow-1); padding:10px 14px;}
+.search input{border:none; outline:none; width:100%; font-size:14px; background:transparent; color:var(--ink); font-weight:500; font-family:var(--font-hacker);}
+.btn{height:var(--btn-h); padding:0 18px; border:none; outline:none; border-radius:var(--r-lg); font-weight:700; letter-spacing:.5px; background:var(--accent); color:var(--paper); box-shadow:var(--shadow-1); transition:transform .1s ease, box-shadow .2s ease; display:inline-flex; align-items:center; gap:10px; font-family:var(--font-hacker);}
+.btn:focus-visible{outline:var(--ring)}
+.btn:active{transform:translateY(1px); box-shadow:none;}
+.btn.ghost{background:var(--paper); color:var(--accent); border:1px solid var(--accent); box-shadow:none;}
+.btn .dot{width:8px; height:8px; border-radius:50%; background:var(--paper)}
+.pill{padding:8px 12px; border-radius:var(--r-md); background:var(--paper); border:1px dashed var(--accent-2); box-shadow:var(--shadow-1); font-size:12px; font-weight:700; color:var(--accent-2); font-family:var(--font-hacker);}
+
+/* ============ GRID ============ */
+.grid{display:grid; gap:var(--gap); grid-template-columns:repeat(auto-fill,minmax(var(--card-w),1fr)); margin-top:10px;}
+.card{background:var(--paper); border-radius:var(--r-lg); border:1px solid var(--muted); box-shadow:var(--shadow-1); padding:16px 14px; display:flex; flex-direction:column; align-items:center; gap:10px; transition:box-shadow .2s ease, transform .12s ease; position:relative;}
+.card:hover{border-color:var(--accent); box-shadow:var(--shadow-2)}
+.icon{width:66px; height:66px; border-radius:var(--r-md); object-fit:cover; border:2px solid var(--accent); background:var(--bg)}
+.card-title{text-align:center; font-size:15px; font-weight:700; color:var(--ink); line-height:1.2; font-family:var(--font-hacker);}
+.badge{margin-top:-2px; padding:6px 10px; font-size:11px; font-weight:700; letter-spacing:.3px; color:var(--accent); background:rgba(255,193,7,.1); border-radius:var(--r-sm); border:1px dashed var(--accent); font-family:var(--font-hacker);}
+
+/* ============ CTA ============ */
+.cta{display:flex; justify-content:center; margin:18px 0 8px;}
+.cta a{display:inline-flex; align-items:center; gap:10px; padding:14px 24px; border-radius:var(--r-lg); background:var(--accent); color:var(--paper); text-decoration:none; font-weight:700; letter-spacing:.5px; box-shadow:var(--shadow-2); font-family:var(--font-hacker);}
+.note{margin:14px auto 0; text-align:center; color:var(--muted); font-weight:500; font-size:11px; font-family:var(--font-hacker);}
+
+/* ============ MODAL (Bottom Sheet) ============ */
+.modal{position:fixed; inset:0; z-index:60; display:flex; align-items:flex-end; justify-content:center; pointer-events:none; opacity:0; transition:opacity .3s ease; padding:0 10px 10px;}
+.modal.show{pointer-events:auto; opacity:1}
+.scrim{position:absolute; inset:0; background:rgba(0,0,0,.85); opacity:0; transition:opacity .3s ease;}
+.modal.show .scrim{opacity:1}
+.sheet{
+  position:relative; width:100%; max-width:520px;
+  background:var(--paper);
+  border:2px solid var(--accent);
+  border-bottom:none;
+  border-radius:var(--r-lg) var(--r-lg) 0 0;
+  box-shadow:0 -18px 46px rgba(0,0,0,.5);
+  transform:translateY(100%); opacity:1;
+  transition:transform .4s cubic-bezier(.22,.9,.24,1), opacity .3s ease;
+  display:flex; flex-direction:column; overflow:hidden;
+}
+.modal.show .sheet{transform:translateY(0)}
+.drag{height:16px; display:flex; justify-content:center; align-items:center}
+.drag:after{content:""; width:56px; height:4px; border-radius:999px; background:var(--muted)}
+.head{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 14px 8px; border-bottom:1px solid rgba(255,193,7,.2);}
+.title{font-size:14px; font-weight:700; letter-spacing:.8px; color:var(--accent); display:flex; align-items:center; gap:10px; font-family:var(--font-hacker);}
+.title img{width:26px; height:26px; border-radius:var(--r-sm); object-fit:cover; border:1px solid var(--accent)}
+.close{width:38px; height:38px; border-radius:50%; border:none; cursor:pointer; background:var(--danger); color:var(--ink); font-weight:900; font-size:16px; box-shadow:var(--shadow-1);}
+
+/* panel body */
+.panel{display:flex; flex-direction:column; gap:10px; padding:14px}
+
+/* embedded floating "site" viewer -- portrait 3:4 */
+.viewer{
+  width:100%; aspect-ratio:3/4;
+  border-radius:var(--r-md); overflow:hidden;
+  border:2px solid var(--accent);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);
+  background:#ffffff;
+}
+.viewer iframe{width:100%; height:100%; border:0; display:block; background:#fff}
+
+/* meta row */
+.meta{display:grid; grid-template-columns:1fr auto; align-items:end; gap:10px}
+.meta .period{font-size:12px; font-weight:700; color:var(--muted); font-family:var(--font-hacker);}
+.meta .timer{
+  font-size:14px; font-weight:800; color:var(--accent-2); 
+  transition: all 0.2s ease; 
+  font-family:var(--font-hacker);
+}
+.meta .timer.predicting {
+  font-size: 11px; 
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+/* BIG/SMALL result text only */
+.result{
+  display:flex; justify-content:center; align-items:center;
+  min-height:48px; padding:8px 10px;
+  border-radius:var(--r-md);
+  background:var(--bg);
+  border:2px solid var(--accent-2);
+  box-shadow:var(--shadow-1);
+  font-weight:900; letter-spacing:1px; color:var(--ink);
+  opacity:0; transition:opacity .8s ease;
+}
+.result.show{opacity:1}
+.result .word{display:inline-block; font-size:24px; font-weight:900; letter-spacing:4px; color:var(--accent);}
+.result .word.pulse{animation:fadePulse 2.2s ease-in-out infinite}
+@keyframes fadePulse{
+  0%{opacity:0}
+  15%{opacity:1}
+  70%{opacity:.35}
+  100%{opacity:0}
+}
+
+/* controls */
+.controls{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:2px}
+.action{height:48px; border:none; border-radius:var(--r-md); font-weight:700; letter-spacing:.3px; box-shadow:var(--shadow-1); font-family:var(--font-hacker);}
+.action.primary{background:var(--accent); color:var(--paper); border:1px solid var(--accent)}
+.action.secondary{background:var(--paper); color:var(--ink); border:1px solid var(--muted)}
+.action:active{transform:translateY(1px); box-shadow:none;}
+
+/* toast */
+.toast{position:fixed; top:10px; left:50%; transform:translateX(-50%); background:var(--accent); color:var(--bg); padding:10px 14px; border-radius:var(--r-md); font-size:13px; font-weight:700; box-shadow:0 0 14px rgba(255,193,7,.8); opacity:0; pointer-events:none; transition:opacity .28s ease, transform .28s ease; z-index:80; font-family:var(--font-hacker);}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(6px)}
+
+/* quick menu */
+.drawer{position:fixed; right:10px; bottom:10px; z-index:70; display:flex; flex-direction:column; gap:10px; align-items:flex-end}
+.fab{width:58px; height:58px; border-radius:var(--r-lg); border:none; background:var(--accent); color:var(--paper); font-weight:900; font-size:18px; box-shadow:var(--shadow-2); font-family:var(--font-hacker);}
+.mini{background:var(--paper); border-radius:var(--r-md); border:1px solid var(--accent); box-shadow:var(--shadow-2); padding:10px 14px; min-width:240px; display:none}
+.mini.show{display:block}
+
+/* Quick Menu Switch Row Styling */
+.row{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 6px;
+  border-radius: var(--r-sm);
+  transition: background 0.15s ease; 
+}
+.row:active, .row:hover { 
+  background: rgba(255, 193, 7, 0.08); 
+  box-shadow: 0 0 0 1px rgba(255, 193, 7, 0.15); 
+}
+
+.row label{font-size:13px; font-weight:500; color:var(--muted); font-family:var(--font-hacker);}
+.switch{position:relative; width:46px; height:26px; border-radius:14px; background:var(--bg); border:1px solid var(--muted);}
+.knob{position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:10px; background:var(--muted); box-shadow:none; transition:left .18s ease}
+.switch.on{background:var(--accent)}.switch.on .knob{left:24px; background:var(--paper)}
+
+/* ============ TELEGRAM PROMO DIALOG ============ */
+.tg-promo-fixed {
+  position: fixed;
+  bottom: 0px; 
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 90; 
+  width: 100%;
+  max-width: 500px;
+  padding: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.tg-promo-fixed.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-10px); 
+}
+.promo-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--paper);
+  border: 2px solid var(--accent);
+  border-radius: var(--r-lg);
+  box-shadow: 0 0 10px rgba(255,193,7,.6); 
+  padding: 12px 16px;
+}
+.promo-text {
+  font-family: var(--font-hacker);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+.promo-actions {
+  display: flex;
+  gap: 10px;
+}
+.tg-btn {
+  flex: 1;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-md);
+  background: var(--accent);
+  color: var(--bg);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: transform 0.1s;
+}
+.tg-hide-btn {
+  width: 80px;
+  height: 38px;
+  border: 1px solid var(--muted);
+  background: transparent;
+  color: var(--muted);
+  border-radius: var(--r-md);
+  font-size: 12px;
+  font-weight: 700;
+  transition: transform 0.1s;
+}
+
+@media (min-width: 600px) {
+    .promo-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .promo-actions {
+        flex: 0 0 auto;
+        width: 240px; /* fixed width for actions */
+    }
+    .tg-btn {
+        flex: 1;
+    }
+}
+@media (max-width: 500px) {
+    .tg-promo-fixed {
+        max-width: none;
+        left: 0;
+        transform: translateX(0);
+        width: 96%;
+        margin: 0 2%;
+        padding: 6px;
+    }
+    .tg-promo-fixed.show {
+        transform: translateY(-10px);
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <img src="https://i.ibb.co/VcWgp8mh/x.jpg" alt="logo" />
+      <h1>Apkmodderkings</h1>
+    </div>
+    <span class="chip ripple-container">ONLINE<span class="dot"></span></span>
+  </div>
+
+  <div class="toolbar">
+    <div class="search ripple-container">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M21 21l-4.35-4.35m1.1-4.15a7 7 0 11-14 0 7 7 0 0114 0z" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <input id="q" placeholder="Search apps (grep) . . .">
+    </div>
+    <button class="btn ghost ripple-container" id="sort"><span class="dot"></span>Sort A→Z</button>
+    <span class="pill">30 SEC PREDICTOR</span>
+  </div>
+
+  <div class="grid" id="grid">
+    <div class="card ripple-container" data-name="55 Club" onclick="openModal('55 Club','https://www.in979.in/#/register?invitationCode=83221522037','https://i.ibb.co/pvXx2ZBR/x.jpg')">
+      <img class="icon" src="https://i.ibb.co/pvXx2ZBR/x.jpg" alt="55 Club" />
+      <div class="card-title">55 Club</div>
+      <div class="badge">ONLINE</div>
+    </div>
+
+    <div class="card ripple-container" data-name="82 Lottery" onclick="openModal('82 Lottery','https://82lottery9.com/#/register?invitationCode=14244992621','https://i.ibb.co/RpW3GYRk/x.jpg')">
+      <img class="icon" src="https://i.ibb.co/RpW3GYRk/x.jpg" alt="82 Lottery" />
+      <div class="card-title">82 Lottery</div>
+      <div class="badge">ONLINE</div>
+    </div>
+
+    <div class="card ripple-container" data-name="Bdgwin" onclick="openModal('Bdgwin','https://bdgwin.cc/#/register?invitationCode=372171400520','https://i.ibb.co/Gv4cCLRd/x.jpg')">
+      <img class="icon" src="https://i.ibb.co/Gv4cCLRd/x.jpg" alt="Bdgwin" />
+      <div class="card-title">Bdgwin</div>
+      <div class="badge">ONLINE</div>
+    </div>
+
+    <div class="card ripple-container" data-name="Big Daddy" onclick="openModal('Big Daddy','https://bdg-4.com/#/register?invitationCode=b7yIo501953','https://i.ibb.co/VWKvPtmT/x.jpg')">
+      <img class="icon" src="https://i.ibb.co/VWKvPtmT/x.jpg" alt="Big Daddy" />
+      <div class="card-title">Big Daddy</div>
+      <div class="badge">ONLINE</div>
+    </div>
+
+    <div class="card ripple-container" data-name="91 Club" onclick="openModal('91 Club','https://91777.in/#/register?invitationCode=111355811375','https://i.ibb.co/LDLB7gCD/x.jpg')">
+      <img class="icon" src="https://i.ibb.co/LDLB7gCD/x.jpg" alt="91 Club" />
+      <div class="card-title">91 Club</div>
+      <div class="badge">ONLINE</div>
+    </div>
+
+    <div class="card ripple-container" data-name="Tiranga" onclick="openModal('Tiranga','https://www.tirangaclub.org/#/register?invitationCode=357811313367','https://i.ibb.co/LzrzcJG2/x.jpg')">
+      <img class="icon" src="https://i.ibb.co/LzrzcJG2/x.jpg" alt="Tiranga" />
+      <div class="card-title">Tiranga</div>
+      <div class="badge">ONLINE</div>
+    </div>
+
+    <div class="card ripple-container" data-name="Bharat Club" onclick="openModal('Bharat Club','https://bharatclub.bet/#/register?invitationCode=884382272723','https://i.ibb.co/Zp5GT8G9/x.jpg')">
+      <img class="icon" src="https://i.ibb.co/Zp5GT8G9/x.jpg" alt="Bharat Club" />
+      <div class="card-title">Bharat Club</div>
+      <div class="badge">ONLINE</div>
+    </div>
+
+    <div class="card ripple-container" data-name="Big Mumbai" onclick="openModal('Big Mumbai','https://bigmumbai7.com/#/register?invitationCode=231142312313','https://i.ibb.co/7Jf11hj1/x.jpg')">
+      <img class="icon" src="https://i.ibb.co/7Jf11hj1/x.jpg" alt="Big Mumbai" />
+      <div class="card-title">Big Mumbai</div>
+      <div class="badge">ONLINE</div>
+    </div>
+  </div>
+
+  <div class="cta ripple-container">
+    <a href="https://t.me/apkmodderkings" target="_blank" rel="noopener"><span class="tg"></span>JOIN TELEGRAM</a>
+  </div>
+  <div class="note">30 SECOND PERIOD • PREDICTOR</div>
+</div>
+
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="scrim" onclick="closeModal()"></div>
+  <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+    <div class="drag"></div>
+    <div class="head">
+      <div class="title">
+        <img id="dIcon" src="" alt="" />
+        <span id="dialogTitle">/Apkmodderkings</span>
+      </div>
+      <button class="close ripple-container" id="closeBtn">×</button>
+    </div>
+
+    <div class="panel">
+      <div class="viewer">
+        <iframe id="frame" title="Signup"></iframe>
+      </div>
+
+      <div class="meta">
+        <div class="period" id="period">Period: —</div>
+        <div class="timer" id="timer">00:00</div>
+      </div>
+
+      <div class="result" id="result"><span class="word" id="word">—</span></div>
+
+      <div class="controls">
+        <button class="action primary ripple-container" id="predict" onclick="predictResult()">RUN PREDICTION</button>
+        <button class="action secondary ripple-container" onclick="closeModal()">EXIT PANEL</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="tg-promo" class="tg-promo-fixed">
+  <div class="promo-content">
+    <div class="promo-text">
+      // SYSTEM ALERT: Join our Telegram Channel for best predictions!
+    </div>
+    <div class="promo-actions">
+      <a href="https://t.me/apkmodderkings" target="_blank" class="tg-btn ripple-container">JOIN CHANNEL</a>
+      <button class="tg-hide-btn ripple-container" id="tg-hide-btn">HIDE</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast">Ready</div>
+
+<div class="drawer">
+  <div class="mini" id="mini">
+    <div class="row ripple-container" data-switch-id="sHaptics"><label>Haptics (Vibrate)</label><div id="sHaptics" class="switch on"><div class="knob"></div></div></div>
+    <div class="row ripple-container" data-switch-id="sSound"><label>Sound (Beep)</label><div id="sSound" class="switch"><div class="knob"></div></div></div>
+    <div class="row ripple-container" data-switch-id="sCompact"><label>Compact grid</label><div id="sCompact" class="switch"><div class="knob"></div></div></div>
+    <div class="row ripple-container" data-switch-id="sText"><label>Large text</label><div id="sText" class="switch"><div class="knob"></div></div></div>
+    <div class="row ripple-container" data-switch-id="sMotion"><label>Reduce motion</label><div id="sMotion" class="switch"><div class="knob"></div></div></div>
+  </div>
+  <button class="fab ripple-container" id="fab">Ξ</button>
+</div>
+
+<script>
+/* ======== ELEMENTS ======== */
+const modal=document.getElementById('modal');
+const frame=document.getElementById('frame');
+const dialogTitle=document.getElementById('dialogTitle');
+const dIcon=document.getElementById('dIcon');
+const closeBtn=document.getElementById('closeBtn');
+const periodEl=document.getElementById('period');
+const timerEl=document.getElementById('timer');
+const resultEl=document.getElementById('result');
+const wordEl=document.getElementById('word');
+const toast=document.getElementById('toast');
+const q=document.getElementById('q');
+const grid=document.getElementById('grid');
+const sortBtn=document.getElementById('sort');
+const fab=document.getElementById('fab');
+const mini=document.getElementById('mini');
+const sHaptics=document.getElementById('sHaptics');
+const sSound=document.getElementById('sSound');
+const sCompact=document.getElementById('sCompact');
+const sText=document.getElementById('sText');
+const sMotion=document.getElementById('sMotion');
+const switchRows = document.querySelectorAll('.mini .row'); 
+const tgPromoEl = document.getElementById('tg-promo');
+const tgHideBtn = document.getElementById('tg-hide-btn');
+
+/* ======== FLAGS ======== */
+let enableHaptics=true, enableSound=false, reduceMotion=false, sortAsc=true;
+if(sHaptics.classList.contains('on')) enableHaptics=true;
+if(sSound.classList.contains('on')) enableSound=true;
+
+
+/* ======== UTILITIES & FEEDBACK ======== */
+function vibrate(ms){ if(enableHaptics && navigator.vibrate) navigator.vibrate(ms) }
+function beep(){
+  if(!enableSound) return;
+  try{
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator(), gain=ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type='sine'; osc.frequency.value=740; gain.gain.value=.08;
+    osc.start(); setTimeout(()=>{osc.stop(); ctx.close()},130);
+  }catch(e){}
+}
+function toastMsg(msg){
+  toast.textContent='> '+msg;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),1800);
+  vibrate(3);
+}
+
+/* ======== RIPPLE EFFECT (The new "Circle" effect) ======== */
+function createRipple(event) {
+    // 1. Trigger Feedback (Vibrate/Beep)
+    vibrate(4); 
+    beep();
+
+    const button = event.currentTarget;
+    // Check if the click originated from a child element (like label in .row)
+    if (event.target !== button && !event.target.classList.contains('ripple-container') && !button.classList.contains('row')) return;
+
+    const circle = document.createElement('span');
+    const diameter = Math.max(button.clientWidth, button.clientHeight);
+    const radius = diameter / 2;
+    
+    // Calculate relative position of click
+    const rect = button.getBoundingClientRect();
+    const x = event.clientX - rect.left - radius;
+    const y = event.clientY - rect.top - radius;
+
+    circle.style.width = circle.style.height = `${diameter}px`;
+    circle.style.left = `${x}px`;
+    circle.style.top = `${y}px`;
+    circle.classList.add('ripple');
+
+    // Remove old ripples
+    const oldRipple = button.querySelector('.ripple');
+    if (oldRipple) {
+        oldRipple.remove();
+    }
+
+    button.appendChild(circle);
+
+    // Remove ripple element after animation is done
+    circle.addEventListener('animationend', () => {
+        circle.remove();
+    });
+}
+
+// Attach ripple effect to all clickable elements
+document.querySelectorAll('.ripple-container').forEach(element => {
+    // Ensure the event listener is added only once
+    if (!element.getAttribute('data-ripple-attached')) {
+        element.addEventListener('click', createRipple);
+        element.setAttribute('data-ripple-attached', true);
+    }
+});
+document.querySelectorAll('.card').forEach(card => {
+    if (!card.getAttribute('data-ripple-attached')) {
+        card.addEventListener('click', createRipple);
+        card.setAttribute('data-ripple-attached', true);
+    }
+});
+
+
+/* ======== OPEN/CLOSE ======== */
+function openModal(name, link, icon){
+  dialogTitle.textContent = name + ' • Apkmodderkings';
+  dIcon.src = icon || dIcon.src;
+  frame.src = link;
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden','false');
+  toastMsg('Panel: ' + name + ' opened');
+}
+function closeModal(){
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden','true');
+  toastMsg('Panel closed');
+}
+closeBtn.addEventListener('click', closeModal);
+
+/* ======== TELEGRAM PROMO LOGIC (3 Minute Timer) ======== */
+const PROMO_INTERVAL_MS = 3 * 60 * 1000; // 3 minutes
+
+function showTgPromo() {
+    tgPromoEl.classList.add('show');
+    toastMsg('System: Telegram Join Prompt Active');
+}
+
+function hideTgPromo() {
+    tgPromoEl.classList.remove('show');
+    toastMsg('Promo Hidden');
+}
+
+function startTgPromoTimer() {
+    // Show the first prompt after 3 minutes, and repeat every 3 minutes.
+    // Use a slight offset (e.g., 5 seconds) for the first one if desired, but 3 min interval is the main requirement.
+    setInterval(showTgPromo, PROMO_INTERVAL_MS);
+}
+
+// Attach hide button listener
+tgHideBtn.addEventListener('click', hideTgPromo);
+
+// Start the timer when the script loads
+startTgPromoTimer();
+
+
+/* ======== PERIOD + TIMER + RESULT (30 SECOND LOGIC) ======== */
+function updatePeriod(){
+  const now=new Date();
+  const y=now.getUTCFullYear();
+  const m=String(now.getUTCMonth()+1).padStart(2,'0');
+  const d=String(now.getUTCDate()).padStart(2,'0');
+  
+  const totalSeconds = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
+  const periodsToday = Math.floor(totalSeconds / 30);
+  const periodIndex = 20001 + periodsToday; 
+  const period=`${y}${m}${d}1000${periodIndex}`;
+  periodEl.textContent='Period: '+period;
+
+  const secondsInCycle = totalSeconds % 30; 
+  let remaining = 30 - secondsInCycle; 
+
+  // Calculate Big/Small based on the period index
+  const lastTwo=String(periodIndex).slice(-2); 
+  let sum=[...lastTwo].reduce((a,b)=>a+parseInt(b),0);
+  if(sum>9) sum=[...String(sum)].reduce((a,b)=>a+parseInt(b),0);
+  const calculatedWord=sum>=5?'BIG':'SMALL';
+
+  // --- LOGIC: PREDICTING (30 to 25) and RESULT (24 to 1) ---
+  if (remaining >= 25) {
+    // Stage 1: Predicting (30, 29, 28, 27, 26, 25)
+    timerEl.textContent = 'PREDICTING...';
+    timerEl.classList.add('predicting');
+    
+    // Hide BIG/SMALL result
+    wordEl.textContent = '...';
+    resultEl.classList.remove('show');
+    wordEl.classList.remove('pulse');
+
+  } else {
+    // Stage 2: Result Phase (24 to 1)
+    timerEl.textContent = String(remaining).padStart(2,'0');
+    timerEl.classList.remove('predicting');
+
+    // Show calculated BIG/SMALL result
+    wordEl.textContent = calculatedWord;
+    resultEl.classList.add('show');
+    wordEl.classList.add('pulse');
+  }
+}
+setInterval(updatePeriod,1000);
+updatePeriod();
+
+/* ======== PREDICT (Button Function) ======== */
+function predictResult(){
+  toastMsg('Prediction Run Complete');
+  const b=document.getElementById('predict');
+  const prev=b.style.transform;
+  b.style.transform='scale(.98)';
+  
+  const now=new Date();
+  const totalSeconds = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
+  const periodsToday = Math.floor(totalSeconds / 30);
+  const periodIndex = 20001 + periodsToday; 
+  const lastTwo=String(periodIndex).slice(-2); 
+  let sum=[...lastTwo].reduce((a,b)=>a+parseInt(b),0);
+  if(sum>9) sum=[...String(sum)].reduce((a,b)=>a+parseInt(b),0);
+  const finalPrediction=sum>=5?'BIG':'SMALL';
+
+  wordEl.textContent = "CHECKING SERVER...";
+  wordEl.classList.remove('pulse');
+  resultEl.classList.add('show');
+  
+  setTimeout(function() {
+    wordEl.textContent = finalPrediction; 
+    wordEl.classList.add('pulse');
+  }, 1500);
+  
+  setTimeout(()=>b.style.transform=prev||'',140);
+}
+
+
+/* ======== SEARCH + SORT ======== */
+q.addEventListener('input',()=>{
+  const s=q.value.toLowerCase().trim();
+  [...grid.children].forEach(card=>{
+    const nm=(card.getAttribute('data-name')||'').toLowerCase();
+    card.style.display=nm.includes(s)?'':'none';
+  })
+});
+sortBtn.addEventListener('click',()=>{
+  const cards=[...grid.children];
+  cards.sort((a,b)=>{
+    const A=a.getAttribute('data-name').toLowerCase();
+    const B=b.getAttribute('data-name').toLowerCase();
+    return sortAsc?A.localeCompare(B):B.localeCompare(A);
+  });
+  sortAsc=!sortAsc;
+  sortBtn.innerHTML=`<span class="dot"></span>Sort ${sortAsc?'A→Z':'Z→A'}`;
+  cards.forEach(c=>grid.appendChild(c));
+  toastMsg('Sort: '+(sortAsc?'A->Z':'Z->A'));
+});
+
+/* ======== QUICK MENU LOGIC (Switches) ======== */
+fab.addEventListener('click',()=>{mini.classList.toggle('show');});
+
+switchRows.forEach(row => {
+    row.addEventListener('click', (e) => {
+        const switchElement = row.querySelector('.switch');
+        if (switchElement) {
+            switchElement.classList.toggle('on');
+            const on = switchElement.classList.contains('on');
+            const id = switchElement.id;
+            let msg = '';
+            
+            switch(id) {
+                case 'sHaptics':
+                    enableHaptics = on;
+                    msg = 'Haptics ' + (on ? 'On' : 'Off');
+                    break;
+                case 'sSound':
+                    enableSound = on;
+                    msg = 'Sound ' + (on ? 'On' : 'Off');
+                    if (on) beep(); 
+                    break;
+                case 'sCompact':
+                    document.documentElement.style.setProperty('--card-w', on?'150px':'170px');
+                    document.documentElement.style.setProperty('--gap', on?'14px':'16px');
+                    document.querySelectorAll('.card').forEach(c=>c.style.padding=on?'12px':'16px 14px');
+                    msg = 'Compact: ' + (on ? 'On' : 'Off');
+                    break;
+                case 'sText':
+                    document.documentElement.style.setProperty('--title', on?'28px':'26px');
+                    document.querySelectorAll('.card-title').forEach(e=>e.style.fontSize=on?'16px':'15px');
+                    msg = 'Large text: ' + (on ? 'On' : 'Off');
+                    break;
+                case 'sMotion':
+                    reduceMotion = on;
+                    const dur = reduceMotion ? '0s' : '.3s';
+                    document.querySelectorAll('.modal,.sheet,.result,.toast,.card,.btn').forEach(el=>el.style.transitionDuration=dur);
+                    msg = 'Reduce motion: ' + (on ? 'On' : 'Off');
+                    break;
+            }
+            toastMsg(msg);
+        }
+    });
+});
+
+
+/* ======== ACCESSIBILITY ======== */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && modal.classList.contains('show')) closeModal();
+});
+</script>
+
+</body>
+</html>
